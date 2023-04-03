@@ -16,7 +16,6 @@ exports.signUp = async (req, res, next) => {
     });
 
     const existMail = await SignupModel.find({ email: req.body.email });
-    console.log(existMail[0]);
 
     if (existMail[0]?.email) {
       return res.status(401).json({
@@ -35,48 +34,48 @@ exports.signUp = async (req, res, next) => {
   } catch (error) {
     res.status(401).send({
       status: "failed!",
-      message: "Authentication failed",
+      message: error.message,
     });
-    console.log(error.message);
   }
 };
 
 // signIn user
-// exports.signIn = async (req, res, next) => {
-//   try {
-//     const isUser = await User.find({ email: req.body.email });
-//     if (isUser.length > 0) {
-//       const isValidation = await bcrypt.compare(
-//         req.body.password,
-//         isUser[0].password
-//       );
-//       if (isValidation) {
-//         // generate token
+exports.signIn = async (req, res, next) => {
+  try {
+    const isUser = await SignupModel.find({ email: req.body.email });
+    if (isUser.length > 0) {
+      const isValidation = await bcrypt.compare(
+        req.body.password,
+        isUser[0].password
+      );
 
-//         const token = jwt.sign(
-//           {
-//             name: isUser[0].name,
-//             userId: isUser[0]._id,
-//           },
-//           process.env.JWT_Sk
-//         );
+      if (isValidation) {
+        // generate token
 
-//         res.status(200).send({
-//           status: true,
-//           access_token: token,
-//           message: "Login success",
-//         });
-//       }
-//     } else {
-//       res.status(401).json({
-//         status: false,
-//         message: "Authenticate fail!",
-//       });
-//     }
-//   } catch (error) {
-//     res.status(401).json({
-//       status: false,
-//       message: "Authenticate fail!",
-//     });
-//   }
-// };
+        const token = jwt.sign(
+          {
+            email: isUser[0].email,
+            userId: isUser[0]._id,
+          },
+          process.env.JWT_Sk
+        );
+
+        res.status(200).send({
+          status: true,
+          message: "Login success",
+          token: token,
+        });
+      }
+    } else {
+      res.status(401).json({
+        status: false,
+        message: "Authenticate fail!",
+      });
+    }
+  } catch (error) {
+    res.status(401).json({
+      status: false,
+      message: "Authenticate fail!",
+    });
+  }
+};

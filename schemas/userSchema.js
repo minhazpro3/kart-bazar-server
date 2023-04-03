@@ -17,7 +17,7 @@ const signupSchema = mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
     trim: true,
-    minLength: [8, "Please provide min 8 length password"],
+    minLength: 8,
   },
 });
 
