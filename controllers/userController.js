@@ -6,6 +6,12 @@ const signupModal = require("../schemas/userSchema");
 // user signup
 exports.signUp = async (req, res, next) => {
   try {
+    // if (!req.body.email && !req.body.password) {
+    //   return res.status(403).send({
+    //     status: "false",
+    //     message: "input is require",
+    //   });
+    // }
     // password hashed
     const hashPassword = await bcrypt.hash(req.body.password, 12);
     // users objects data
@@ -28,8 +34,12 @@ exports.signUp = async (req, res, next) => {
 
     if (hashPassword) {
       const result = await signupModel.save();
-
-      res.send(result);
+      if (result) {
+        res.status(200).send({
+          status: "success",
+          message: "Successfully signUp",
+        });
+      }
     }
 
     // any error
@@ -44,7 +54,7 @@ exports.signUp = async (req, res, next) => {
 // signIn user
 exports.signIn = async (req, res, next) => {
   try {
-    const isUser = await SignupModel.find({ email: req.body.email });
+    const isUser = await signupModal.find({ email: req.body.email });
     if (isUser.length > 0) {
       const isValidation = await bcrypt.compare(
         req.body.password,
@@ -80,4 +90,13 @@ exports.signIn = async (req, res, next) => {
       message: "Authenticate fail!",
     });
   }
+};
+
+// get all users
+
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await signupModal.find({});
+    res.send(users);
+  } catch (error) {}
 };
