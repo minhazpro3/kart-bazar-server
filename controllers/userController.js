@@ -1,26 +1,28 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
+const signupModal = require("../schemas/userSchema");
 
-const SignupModel = require("../schemas/userSchema");
 // user signup
 exports.signUp = async (req, res, next) => {
   try {
     // password hashed
-    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    const hashPassword = await bcrypt.hash(req.body.password, 12);
     // users objects data
 
-    const signupModel = new SignupModel({
+    const signupModel = new signupModal({
       email: req.body.email,
       password: hashPassword,
     });
 
-    const existMail = await SignupModel.find({ email: req.body.email });
+    console.log(signupModel);
+
+    const existMail = await signupModal.find({ email: req.body.email });
 
     if (existMail[0]?.email) {
       return res.status(401).json({
         status: false,
-        message: "User already exist",
+        message: 'User already exist "Login please"',
       });
     }
 

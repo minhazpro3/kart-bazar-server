@@ -10,8 +10,6 @@ const signupSchema = mongoose.Schema({
     trim: true,
     unique: [true, "Please provide another email address"],
     lowercase: true,
-    maxLength: 30,
-    minLength: [8, "please provide min 15 length"],
   },
   password: {
     type: String,
@@ -21,8 +19,9 @@ const signupSchema = mongoose.Schema({
   },
 });
 
-const signupModel = mongoose.model("users", signupSchema);
-module.exports = signupModel;
+const signupModal = mongoose.model("users", signupSchema);
+
+module.exports = signupModal;
 
 // signIn schema
 // const signInSchema = mongoose.Schema({
