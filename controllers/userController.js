@@ -37,7 +37,7 @@ exports.signUp = async (req, res, next) => {
       const token = generateToken(result._id);
       if (result) {
         res.status(200).send({
-          status: "success",
+          status: true,
           message: "Successfully signUp",
           email: result.email,
           _id: result._id,
