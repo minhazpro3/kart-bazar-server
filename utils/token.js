@@ -5,6 +5,6 @@ exports.generateToken = (userInfo) => {
     userId: userInfo._id,
   };
 
-  const token = jwt.sign(payload, process.env.JWT_Sk, { expiresIn: "20s" });
+  const token = jwt.sign(payload, process.env.JWT_Sk, { expiresIn: "60s" });
   return token;
 };

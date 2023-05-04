@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const signupModal = require("../schemas/userSchema");
 const { generateToken } = require("../utils/token");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 // user signup
 exports.signUp = async (req, res, next) => {
@@ -98,6 +99,7 @@ exports.signIn = async (req, res, next) => {
 
 exports.getUsers = async (req, res, next) => {
   try {
+    console.log(req.user);
     const users = await signupModal.find({});
     res.send(users);
   } catch (error) {}
