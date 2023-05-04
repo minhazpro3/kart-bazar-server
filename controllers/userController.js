@@ -33,10 +33,15 @@ exports.signUp = async (req, res, next) => {
 
     if (hashPassword) {
       const result = await signupModel.save();
+
+      const token = generateToken(result._id);
       if (result) {
         res.status(200).send({
           status: "success",
           message: "Successfully signUp",
+          email: result.email,
+          _id: result._id,
+          token: token,
         });
       }
     }
@@ -53,12 +58,12 @@ exports.signUp = async (req, res, next) => {
 // signIn user
 exports.signIn = async (req, res, next) => {
   try {
-    const isUser = await signupModal.find({ email: req.body.email });
+    const isUser = await signupModal.findOne({ email: req.body.email });
 
-    if (isUser.length > 0) {
+    if (isUser) {
       const isValidation = await bcrypt.compare(
         req.body.password,
-        isUser[0].password
+        isUser.password
       );
       console.log(isValidation);
       if (isValidation) {
