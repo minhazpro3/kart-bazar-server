@@ -28,7 +28,7 @@ exports.signUp = async (req, res, next) => {
     if (existMail[0]?.email) {
       return res.status(401).json({
         status: false,
-        message: 'User already exist "Login please"',
+        message: 'User already exist Login please',
       });
     }
 
