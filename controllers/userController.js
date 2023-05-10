@@ -39,7 +39,7 @@ exports.signUp = async (req, res, next) => {
       if (result) {
         res.status(200).send({
           status: true,
-          message: "Successfully was signUp please to to home",
+          message: "Successfully was signUp please go to  home",
           email: result.email,
           _id: result._id,
           token: token,
@@ -72,7 +72,7 @@ exports.signIn = async (req, res, next) => {
         const token = generateToken(isUser);
         res.status(200).send({
           status: true,
-          message: "Login success",
+          message: "Wow congratulation Login success",
           token: token,
         });
       } else {
