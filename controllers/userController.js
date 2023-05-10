@@ -84,13 +84,13 @@ exports.signIn = async (req, res, next) => {
     } else {
       res.status(401).json({
         status: false,
-        message: "Authenticate fail!",
+        message: "Authenticate fail try again!",
       });
     }
   } catch (error) {
     res.status(401).json({
       status: false,
-      message: "Authenticate fail!",
+      message: "Authenticate fail try again!",
     });
   }
 };
